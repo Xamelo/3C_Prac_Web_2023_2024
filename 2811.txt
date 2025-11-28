@@ -1,0 +1,97 @@
+import './App.css';
+import styled, {css, keyframes} from 'styled-components';
+
+function App() {
+  const Wrapper = styled.div `
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: AliceBlue;
+  `;
+
+  const Title = styled.h1 `
+  color: navy;
+  text-align: center;
+  
+  &:hover {
+    color: red;
+  }
+  `;
+
+  const Card = styled.div `
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    padding: 10px;
+    box-shadow: 10px 10px 5px;
+
+    ${props => props.$active && css`
+      border-color: green;
+      box-shadow: 10px 10px;
+      `}
+  `;
+
+  const BaseButton = styled.button `
+      padding: 10px;
+      border-radius: 50%;
+      border-style: none;
+  `;
+
+  const AlertButton = styled(BaseButton) `
+      background-color: red;
+      color: white;
+      font-weight: bold;
+  `;
+
+  const Input = styled.input `
+      border: 1px solid black;
+
+      ${props => props.$hasError && css `
+        border: 1px solid red;
+        `}
+  `;
+
+  const GridContainer = styled.div `
+        display: grid;
+        @media (min-width: 768px 
+        {
+          grid-column: 1;
+        })
+        grid-column: 3;
+  `;
+
+  const rotate = keyframes `
+    to {
+      transform: rotate(360deg);
+    }
+  `;
+
+  const Spinner = styled.div `
+      animation: ${rotate} 4s linear infinite;
+      border: 5px solid black;
+      border-radius: 100%;
+      padding: 10px;
+      max-width: 40px;
+      }
+  `;
+
+  const PasswordInput = styled.input `
+      
+  `;
+
+  return (
+    <Wrapper>
+      <Title>tittle</Title>
+      <Card></Card>
+      <Card $active></Card>
+      <BaseButton>przycisk</BaseButton>
+      <AlertButton>przycisk 2</AlertButton>
+      <Input></Input>
+      <Input $hasError></Input>
+      <Spinner>ok</Spinner>
+    </Wrapper>
+  );
+}
+
+export default App;
