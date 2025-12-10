@@ -1,7 +1,10 @@
 import './App.css';
 import styled, {css, keyframes} from 'styled-components';
+import { useState } from 'react';
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const Wrapper = styled.div `
   width: 100%;
   max-width: 800px;
@@ -76,22 +79,101 @@ function App() {
       }
   `;
 
-  const PasswordInput = styled.input `
-      
+  const PasswordInput = styled.input.attrs({
+    type: 'password',
+    placeholder: 'Wpisz hasło...'
+    })`
+    padding: 8px 12px;
+    background-color: #f0f8ff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
   `;
 
-  return (
-    <Wrapper>
-      <Title>tittle</Title>
-      <Card></Card>
-      <Card $active></Card>
-      <BaseButton>przycisk</BaseButton>
-      <AlertButton>przycisk 2</AlertButton>
-      <Input></Input>
-      <Input $hasError></Input>
-      <Spinner>ok</Spinner>
-    </Wrapper>
-  );
+  const Nav = styled.nav`
+    display: flex;
+    background-color: #333; /* ciemne tło */
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  `;
+
+  const NavItem = styled.a`
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+    
+    &:hover {
+        background-color: #555;
+        border-radius: 4px;
+    }
+    
+    & + & {
+        margin-left: 15px;
+    }
+  `;
+
+  const GlobalWrapper = styled.div`
+    background-color: ${props => props.$isDarkMode ? '#1a1a1a' : '#ffffff'};
+    color: ${props => props.$isDarkMode ? '#f0f0f0' : '#333333'};
+    min-height: 100vh;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    
+    * {
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+  `;
+
+   return (
+        <GlobalWrapper $isDarkMode={isDarkMode}>
+            <button 
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                style={{
+                    position: 'fixed',
+                    top: '10px',
+                    right: '10px',
+                    padding: '8px 16px',
+                    background: isDarkMode ? '#555' : '#eee',
+                    color: isDarkMode ? '#fff' : '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    zIndex: 1000
+                }}
+            >
+                {isDarkMode ? 'Tryb ciemny' : 'Tryb jasny'}
+            </button>
+            
+            <Wrapper>
+                <Nav>
+                    <NavItem href="#">Strona główna</NavItem>
+                    <NavItem href="#">O nas</NavItem>
+                    <NavItem href="#">Usługi</NavItem>
+                    <NavItem href="#">Kontakt</NavItem>
+                </Nav>
+                
+                <Title>tytuł</Title>
+                <Card></Card>
+                <Card $active></Card>
+                <BaseButton>przycisk</BaseButton>
+                <AlertButton>przycisk 2</AlertButton>
+                <Input placeholder="Normalny input"></Input>
+                <Input $hasError placeholder="Input z błędem"></Input>
+                
+                <PasswordInput />
+                
+                <Spinner>ok</Spinner>
+            </Wrapper>
+        </GlobalWrapper>
+    );
 }
 
 export default App;
